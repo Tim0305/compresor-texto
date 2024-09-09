@@ -1,5 +1,6 @@
 package compresortexto;
 
+import compresor.Compresor;
 import java.util.List;
 import java.util.Scanner;
 
@@ -50,6 +51,7 @@ public class CompresorTexto {
                     System.out.print("Ingrese el texto que quiere comprimir: ");
                     input = scanner.nextLine();
                     System.out.println(input);
+                    Compresor.comprimir(input);
                     break;
 
                 case "2":
