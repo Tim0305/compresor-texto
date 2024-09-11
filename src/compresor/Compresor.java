@@ -11,7 +11,7 @@ public class Compresor {
     private static int index;
     private static int length;
 
-    public static String comprimir(String texto) {
+    public static List<DatosSalidaPaquete> comprimir(String texto) {
 
         // Agregamos un caracter nulo al final del string
         texto = texto + (char) 0;
@@ -25,6 +25,8 @@ public class Compresor {
         int repeticiones = 0;
         char caracter = 0;
 
+        // Length - 1 porque el maximo al que puede llegar es l - 1 y es necesario para que se corte el ciclo
+        // ya que en un for se para el ciclo hasta que el iterador no cumpla la condicion
         for (index = 0; index < length - 1; recorrerArreglo(repeticiones + 1)) {
 
             /*
@@ -49,8 +51,10 @@ public class Compresor {
                 listDatosIteracionCompresions.add(new DatosIteracionCompresion(caracter, 0, 0));
             }
         }
-        listDatosIteracionCompresions.forEach(c -> System.out.println(c));
-        return null;
+
+        List<DatosSalidaPaquete> listaPaquetes = Paquete.empaquetar(listDatosIteracionCompresions);
+        listDatosIteracionCompresions.clear();
+        return listaPaquetes;
     }
 
     private static int getPosition(int index, int endIndex) {
