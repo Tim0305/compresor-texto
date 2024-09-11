@@ -13,6 +13,9 @@ public class Compresor {
 
     public static String comprimir(String texto) {
 
+        // Agregamos un caracter nulo al final del string
+        texto = texto + (char) 0;
+
         length = texto.length();
         index = 0;
         startIndexArray = 0;
@@ -22,7 +25,7 @@ public class Compresor {
         int repeticiones = 0;
         char caracter = 0;
 
-        for (index = 0; index < length; recorrerArreglo(repeticiones + 1)) {
+        for (index = 0; index < length - 1; recorrerArreglo(repeticiones + 1)) {
 
             /*
             Cuerpo del metodo para comprimir el texto de acuerdo a los indices
@@ -36,46 +39,21 @@ public class Compresor {
             posicionCaracter = existsInArray(texto, startIndexArray, index - 1, caracter);
 
             if (posicionCaracter != -1) {
-                repeticiones++;
-                posicionCaracter = getPosition(posicionCaracter, startIndexArray, index - 1);
-//                for (int i = index + 1; i <= endIndexArray; i++) {
-//
-//                    caracter = texto.charAt(i);
-//                    System.out.println(caracter);
-//                    if (existsInArray(texto, startIndexArray, index - 1, caracter) != -1) {
-//                        repeticiones++;
-//
-//                        // Determinar si el caracter es el ultimo
-//                        if (i == endIndexArray) {
-//                            System.out.println(i);
-//                            // Caracter de termino
-//                            caracter = 0;
-//                            listDatosIteracionCompresions.add(new DatosIteracionCompresion(caracter, posicionCaracter, repeticiones));
-//                        }
-//                    } else {
-//                        listDatosIteracionCompresions.add(new DatosIteracionCompresion(caracter, posicionCaracter, repeticiones));
-//                        break;
-//                    }
-//                }
-
+                posicionCaracter = getPosition(posicionCaracter, index - 1);
                 repeticiones = getRepeticiones(startIndexArray, endIndexArray, index, texto);
 
-                if (index + repeticiones > endIndexArray) {
-                    listDatosIteracionCompresions.add(new DatosIteracionCompresion((char) 0, posicionCaracter, repeticiones));
-                } else {
-                    listDatosIteracionCompresions.add(new DatosIteracionCompresion(texto.charAt(repeticiones + index), posicionCaracter, repeticiones));
-                }
+                System.out.println(index + repeticiones);
+                listDatosIteracionCompresions.add(new DatosIteracionCompresion(texto.charAt(repeticiones + index), posicionCaracter, repeticiones));
 
             } else {
-                DatosIteracionCompresion dto = new DatosIteracionCompresion(caracter, 0, 0);
-                listDatosIteracionCompresions.add(dto);
+                listDatosIteracionCompresions.add(new DatosIteracionCompresion(caracter, 0, 0));
             }
         }
         listDatosIteracionCompresions.forEach(c -> System.out.println(c));
         return null;
     }
 
-    private static int getPosition(int index, int startIndex, int endIndex) {
+    private static int getPosition(int index, int endIndex) {
         return endIndex - index + 1;
     }
 
