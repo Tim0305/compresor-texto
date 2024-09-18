@@ -1,17 +1,19 @@
-package compresor;
+package lz77.compresor;
 
+import lz77.PaqueteService;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Compresor {
 
-    private static List<DatosIteracionCompresion> listDatosIteracionCompresions = new ArrayList<>();
     private static int startIndexArray;
     private static int endIndexArray;
     private static int index;
     private static int length;
 
-    public static List<DatosSalidaPaquete> comprimir(String texto) {
+    public static List<Character> comprimir(String texto) {
+
+        List<DatosIteracionCompresion> listDatosIteracionCompresions = new ArrayList<>();
 
         // Agregamos un caracter nulo al final del string
         texto = texto + (char) 0;
@@ -37,23 +39,19 @@ public class Compresor {
              */
             repeticiones = 0;
             caracter = texto.charAt(index);
-            System.out.println(caracter);
             posicionCaracter = existsInArray(texto, startIndexArray, index - 1, caracter);
 
             if (posicionCaracter != -1) {
                 posicionCaracter = getPosition(posicionCaracter, index - 1);
                 repeticiones = getRepeticiones(startIndexArray, endIndexArray, index, texto);
 
-                System.out.println(index + repeticiones);
                 listDatosIteracionCompresions.add(new DatosIteracionCompresion(texto.charAt(repeticiones + index), posicionCaracter, repeticiones));
 
             } else {
                 listDatosIteracionCompresions.add(new DatosIteracionCompresion(caracter, 0, 0));
             }
         }
-
-        List<DatosSalidaPaquete> listaPaquetes = Paquete.empaquetar(listDatosIteracionCompresions);
-        listDatosIteracionCompresions.clear();
+        List<Character> listaPaquetes = PaqueteService.empaquetar(listDatosIteracionCompresions);
         return listaPaquetes;
     }
 
@@ -108,9 +106,5 @@ public class Compresor {
             Cuando el indice del final del arreglo de la cadena original llegue al final del string
             tenemos que evitar que el indice incremente
          */
-//
-//        System.out.println("Index: " + index);
-//        System.out.println("Start: " + startIndexArray);
-//        System.out.println("End: " + endIndexArray);
     }
 }

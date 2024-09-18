@@ -1,9 +1,10 @@
 package compresortexto;
 
-import compresor.Compresor;
-import compresor.DatosSalidaPaquete;
+import lz77.compresor.Compresor;
+import lz77.PaqueteService;
 import java.util.List;
 import java.util.Scanner;
+import lz77.Lz77Compresor;
 
 public class CompresorTexto {
 
@@ -51,16 +52,16 @@ public class CompresorTexto {
                     // Comprimir
                     System.out.print("Ingrese el texto que quiere comprimir: ");
                     input = scanner.nextLine();
-                    System.out.println(input);
-                    List<DatosSalidaPaquete> listaPaquetes = Compresor.comprimir(input);
-                    listaPaquetes.forEach(d -> System.out.println(d));
+                    System.out.print("Resultado: ");
+                    System.out.println(Lz77Compresor.comprimir(input));
                     break;
 
                 case "2":
                     // Descomprimir
                     System.out.print("Ingrese el codigo que quiere descomprimir: ");
                     input = scanner.nextLine();
-                    System.out.println(input);
+                    System.out.print("Resultado: ");
+                    System.out.println(Lz77Compresor.descomprimir(input));
                     break;
                 default:
                     System.out.println(String.format("La opcion '%s' no es valida", op));
@@ -69,5 +70,4 @@ public class CompresorTexto {
             System.out.println();
         }
     }
-
 }

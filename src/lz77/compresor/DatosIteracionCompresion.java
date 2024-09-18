@@ -1,10 +1,10 @@
-package compresor;
+package lz77.compresor;
 
-public record DatosIteracionCompresion(char character, int posicion, int repeticiones) {
+public record DatosIteracionCompresion(char caracter, int posicion, int repeticiones) {
 
     @Override
     public String toString() {
-        return "DatosIteracionCompresion{" + "character=" + character + ", posicion=" + posicion + ", repeticiones=" + repeticiones + '}';
+        return "DatosIteracionCompresion{" + "character=" + caracter + ", posicion=" + posicion + ", repeticiones=" + repeticiones + '}';
     }
 
 }
