@@ -24,10 +24,11 @@ public class Lz77Compresor {
     }
 
     public static String descomprimir(String textoComprimido) {
+        if (textoComprimido.isEmpty())
+            return "";
+
         String[] componentes = textoComprimido.split(" ");
-
         List<Character> listaPaquetes = new ArrayList<>();
-
         for (String componente : componentes) {
             String[] paquete = componente.split(",");
             int caracter = Integer.parseInt(paquete[0]);
