@@ -4,8 +4,8 @@ import lz77.Lz77Compresor;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class CompresorTextoGUI extends JFrame {
 
@@ -13,10 +13,11 @@ public class CompresorTextoGUI extends JFrame {
     private int height;
     private JTextArea plainTextArea;
     private JTextArea compressedTextArea;
+    private JFrame ventanaPrincipal;
 
     public CompresorTextoGUI() {
         super();
-
+        ventanaPrincipal = null;
         width = 500;
         height = width;
 
@@ -27,15 +28,33 @@ public class CompresorTextoGUI extends JFrame {
         init();
     }
 
+    public CompresorTextoGUI(JFrame ventanaPrincipal) {
+        this();
+        this.ventanaPrincipal = ventanaPrincipal;
+    }
+
     private void init() {
 
         //Ventana
         setTitle("Compresor Texto");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(width, height);
         setLocationRelativeTo(null);
         setResizable(false);
         setLayout(null);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (ventanaPrincipal != null) {
+                    // Si hay una ventana principal terminar esta ventana y abrir la principal
+                    setVisible(false);
+                    ventanaPrincipal.setVisible(true);
+                }
+                else
+                    System.exit(0); // Terminar el programa si no hay una ventana principal
+            }
+        });
 
         // Label
         JLabel titulo = new JLabel("Compresor Texto", SwingConstants.CENTER);
@@ -50,17 +69,19 @@ public class CompresorTextoGUI extends JFrame {
         // Button Comprimir
         JButton cmdComprimirTexto = new JButton("Comprimir");
         cmdComprimirTexto.setBounds(20, 210, 200, 30);
-        cmdComprimirTexto.addActionListener((e) -> comprimirTexto());
+        cmdComprimirTexto.addActionListener((e) -> onClickComprimirTexto());
         cmdComprimirTexto.setBackground(new Color(0, 150, 0));
         cmdComprimirTexto.setForeground(Color.white);
+        cmdComprimirTexto.setFocusable(false);
         add(cmdComprimirTexto);
 
         // Button Descomprimir
         JButton cmdDescomprimirTexto = new JButton("Descomprimir");
         cmdDescomprimirTexto.setBounds(260, 210, 200, 30);
-        cmdDescomprimirTexto.addActionListener((e) -> descomprimirTexto());
+        cmdDescomprimirTexto.addActionListener((e) -> onClickDescomprimirTexto());
         cmdDescomprimirTexto.setBackground(new Color(150, 0, 0));
         cmdDescomprimirTexto.setForeground(Color.white);
+        cmdDescomprimirTexto.setFocusable(false);
         add(cmdDescomprimirTexto);
 
         // CompressedText
@@ -69,12 +90,12 @@ public class CompresorTextoGUI extends JFrame {
         add(scrollPaneCompressedTextArea);
     }
 
-    private void comprimirTexto() {
+    private void onClickComprimirTexto() {
         String plainText = plainTextArea.getText();
         compressedTextArea.setText(Lz77Compresor.comprimir(plainText));
     }
 
-    private void descomprimirTexto() {
+    private void onClickDescomprimirTexto() {
         String compressedText = compressedTextArea.getText();
         plainTextArea.setText(Lz77Compresor.descomprimir(compressedText));
     }
